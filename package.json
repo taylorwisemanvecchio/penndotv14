@@ -9,13 +9,20 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@microsoft/microsoft-graph-client": "^3.0.7",
-    "next": "14.2.22",
+    "@mui/icons-material": "^6.4.3",
+    "@mui/material": "^6.4.3",
+    "axios": "^1.7.9",
+    "next": "15.1.6",
     "next-auth": "^5.0.0-beta.25",
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^9.0.3"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
     "@types/node": "^22",
     "@types/react": "^18",
     "@types/react-dom": "^18",
