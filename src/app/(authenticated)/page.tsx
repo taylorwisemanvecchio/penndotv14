@@ -52,20 +52,19 @@ export default function ChatPage() {
 
     const sendMessage = async (message: string) => {
         if (!message.trim()) return;
-        setInput("");  // Clear input immediately after sending
         const newMessages: ChatMessage[] = [...chatMessages, { role: "user", text: message }];
         setChatMessages(newMessages);
         setLoading(true);
 
         try {
             const response = await axios.post("/api/chat", { message });
-            const messagesData = response.data.messages || [];
+            const messagesData = response.data.messages?.data || [];
 
             const assistantMessages: ChatMessage[] = messagesData
                 .filter((msg: any) => msg.role === "assistant")
                 .map((msg: any) => ({
                     role: msg.role,
-                    text: typeof msg.content === "string" ? msg.content : msg.content.map((part: any) => part.text.value).join(" "),
+                    text: msg.content.map((part: any) => part.text.value).join(" "),
                 }));
 
             setChatMessages([...newMessages, ...assistantMessages]);
@@ -125,9 +124,12 @@ export default function ChatPage() {
                     ))}
                 </List>
             </Drawer>
+			
+			
 
             {/* Main Chat Interface */}
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+                {/* AppBar with Welcome Message */}
                 <AppBar position="static" sx={{ bgcolor: "#00653b" }}>
                     <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                         <Typography variant="h6">Wiseman AI: PennDot Assistant</Typography>
@@ -136,18 +138,13 @@ export default function ChatPage() {
                         </Typography>
                     </Toolbar>
                 </AppBar>
+				
 
+
+                {/* Chat Container */}
                 <Container maxWidth="md" sx={{ flex: 1, py: 2, display: "flex", flexDirection: "column" }}>
                     <Paper elevation={3} sx={{ flex: 1, display: "flex", flexDirection: "column", p: 2, borderRadius: 2 }}>
-                        
-                        {/* Loading Indicator */}
-                        {loading && (
-                            <Typography variant="body2" sx={{ textAlign: 'center', mb: 2 }}>
-                                Wiseman AI is thinking...
-                            </Typography>
-                        )}
-
-                        {/* Chat messages area */}
+                        {/* Chat messages area (Scrollable) */}
                         <Box sx={{ flexGrow: 1, overflowY: "auto", mb: 2 }}>
                             {chatMessages.map((msg, index) => (
                                 <Box
@@ -175,14 +172,18 @@ export default function ChatPage() {
                                             <Typography variant="subtitle2" sx={{ fontWeight: "bold" }}>
                                                 {msg.role === "assistant" ? "Wiseman AI" : "You"}
                                             </Typography>
-                                            <ReactMarkdown linkTarget="_blank">{msg.text}</ReactMarkdown>
+                                            <ReactMarkdown>{msg.text}</ReactMarkdown>
                                         </Paper>
                                     </Box>
+                                    {msg.role === "user" && (
+                                        <Avatar sx={{ ml: 1, bgcolor: "secondary.main", width: 40, height: 40 }}>U</Avatar>
+                                    )}
                                 </Box>
                             ))}
                             <div ref={messagesEndRef} />
                         </Box>
 
+                        {/* Chat Input Area */}
                         <Box sx={{ display: "flex", alignItems: "center", position: "sticky", bottom: 0, bgcolor: "white", p: 2 }}>
                             <TextField
                                 multiline
