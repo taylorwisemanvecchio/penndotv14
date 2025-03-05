@@ -69,7 +69,7 @@ export default function ChatPage() {
 
             setChatMessages([...newMessages, ...assistantMessages]);
         } catch (error) {
-            console.error("Error sending message:", error.response?.data || error.message);
+            console.error("Error sending message:", (error as any).response?.data || (error as any).message);
             setChatMessages([
                 ...newMessages,
                 { role: "assistant", text: "Error: Unable to get response. Please try again." },
