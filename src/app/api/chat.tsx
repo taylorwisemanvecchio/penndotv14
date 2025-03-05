@@ -51,7 +51,7 @@ const createAssistant = async (): Promise<string> => {
     const response = await axios.post(`${BASE_URL}/assistants`, payload, { headers: HEADERS });
     assistantId = response.data.id;
     console.log('Assistant created:', assistantId);
-    return assistantId;
+    return assistantId as string;
   } catch (error: any) {
     console.error("Error creating assistant:", error.response?.data || error.message);
     throw new Error("Failed to create assistant.");
