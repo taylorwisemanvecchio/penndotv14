@@ -14,6 +14,7 @@ export const authConfig = {
         // https://learn.microsoft.com/en-us/graph/permissions-overview
         params: {
           scope: 'openid profile email User.Read offline_access',
+          redirect_uri: 'https://penndotproposal.vercel.app/api/auth/callback/microsoft-entra-id',
         },
       },
     }),
@@ -58,3 +59,4 @@ export const authConfig = {
     },
   },
 } satisfies NextAuthConfig;
+console.log("Redirect URI:", process.env.NEXTAUTH_URL + '/api/auth/callback/microsoft-entra-id');
