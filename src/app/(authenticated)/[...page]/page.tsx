@@ -37,17 +37,19 @@ async function fetchCatFact() {
 
 // Define a type for the page props to fix the type error
 type PageProps = {
-  params: { page: string };
+  params: Promise<{ page: string }>;
 };
 
 export default async function UnknownPage({ params }: PageProps) {
+  // Await the params since it's a Promise
+  const { page } = await params;
   const catEmoji = getRandomCatEmoji();
   const catFact = await fetchCatFact();
 
   return (
     <main className='text-center' aria-label='Unknown page'>
       <h1>Oops! Page Not Found</h1>
-      <p>The page &quot;{params.page}&quot; does not exist... yet.</p>
+      <p>The page &quot;{page}&quot; does not exist... yet.</p>
       <span className='text-6xl'>{catEmoji}</span>
       <div className='bg-slate-700 p-3 max-w-sm rounded'>
         Fun Fact: {catFact}
