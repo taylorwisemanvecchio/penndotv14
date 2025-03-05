@@ -35,11 +35,12 @@ async function fetchCatFact() {
   return data.fact;
 }
 
-export default async function UnknownPage({
-  params,
-}: {
+// Define a type for the page props to fix the type error
+type PageProps = {
   params: { page: string };
-}) {
+};
+
+export default async function UnknownPage({ params }: PageProps) {
   const catEmoji = getRandomCatEmoji();
   const catFact = await fetchCatFact();
 
